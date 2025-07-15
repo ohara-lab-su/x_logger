@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Logger
+
+DARUMA Logger ->  Em Logger --> X Logger -> simple iba`版で再構築
+
+Kengo NAKADA, kengo.nakada@mat.shimane-u.ac.jp, kengo.nakada@gmail.com
+"""
 import logging
 import coloredlogs
 from logging.handlers import TimedRotatingFileHandler
@@ -27,11 +36,13 @@ class XLogger:
         if logger_name is None:
             logger_name = "SimpleLogger"
         self.logger = logging.getLogger(logger_name)
+
         for h in list(self.logger.handlers):
             self.logger.removeHandler(h)
         self.logger.setLevel(log_level.upper())
         fmt = "%(asctime)s %(name)s[%(process)d] %(levelname)s %(message)s"
         datefmt = "%Y-%m-%d %H:%M:%S"
+
         if log_mode == "file":
             if not log_name:
                 raise ValueError("log_name must be specified for file mode")
@@ -39,6 +50,7 @@ class XLogger:
             handler.setFormatter(logging.Formatter(fmt, datefmt))
             self.logger.addHandler(handler)
             self.logger.propagate = False
+
         elif log_mode == "rotating":
             if not log_name:
                 raise ValueError("log_name must be specified for rotating mode")
@@ -48,6 +60,7 @@ class XLogger:
             handler.setFormatter(logging.Formatter(fmt, datefmt))
             self.logger.addHandler(handler)
             self.logger.propagate = False
+
         else:  # default: 標準出力はroot loggerのcoloredlogsへ流すだけ
             self.logger.propagate = True
 
