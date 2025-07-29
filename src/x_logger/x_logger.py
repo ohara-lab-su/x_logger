@@ -33,23 +33,29 @@ class XLogger:
         backup_count=30,  # ローテート時の保存数（日数）
         logger_name=None,  # ロガー名
     ):
-        if logger_name is None:
-            logger_name = "SimpleLogger"
-        self.logger = logging.getLogger(logger_name)
+        self.log_level = log_level
+        self.log_mode = log_mode
+        self.log_name = log_name
+        self.backup_count = backup_count
+        self.logger_name = logger_name
+
+        if self.logger_name is None:
+            self.logger_name = "SimpleLogger"
+        self.logger = logging.getLogger(self.logger_name)
 
         for h in list(self.logger.handlers):
             self.logger.removeHandler(h)
-        self.logger.setLevel(log_level.upper())
+        self.logger.setLevel(self.log_level.upper())
 
         fmt = "%(asctime)s %(name)s[%(process)d] %(levelname)s %(message)s"
         datefmt = "%Y-%m-%d %H:%M:%S"
 
-        if log_mode == "file":
-            if not log_name:
+        if self.log_mode == "file":
+            if not self.log_name:
                 raise ValueError("log_name must be specified for file mode")
 
             # ファイル出力
-            handler_file = logging.FileHandler(log_name, encoding="utf-8")
+            handler_file = logging.FileHandler(self.log_name, encoding="utf-8")
             handler_file.setFormatter(logging.Formatter(fmt, datefmt))
             self.logger.addHandler(handler_file)
 
@@ -59,15 +65,15 @@ class XLogger:
             self.logger.addHandler(handler_stream)
             self.logger.propagate = False
 
-        elif log_mode == "rotating":
-            if not log_name:
+        elif self.log_mode == "rotating":
+            if not self.log_name:
                 raise ValueError("log_name must be specified for rotating mode")
             # print(f"log_name = {log_name}")
 
             handler_rot = TimedRotatingFileHandler(
-                log_name,
+                self.log_name,
                 when="midnight",
-                backupCount=backup_count,
+                backupCount=self.backup_count,
                 encoding="utf-8",
             )
             handler_rot.setFormatter(logging.Formatter(fmt, datefmt))
@@ -81,6 +87,21 @@ class XLogger:
 
         else:  # 'default'（画面のみ）: root loggerに流すだけ
             self.logger.propagate = True
+
+    def get_log_level(self):
+        return self.log_level
+
+    def get_log_mode(self):
+        return self.log_mode
+
+    def get_log_name(self):
+        return self.log_name
+
+    def get_backup_count(self):
+        return self.backup_count
+
+    def get_logger_name(self):
+        return self.logger_name
 
     def get_logger(self):
         return self.logger
