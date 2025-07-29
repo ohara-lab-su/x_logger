@@ -18,7 +18,7 @@ def test_xxx():
     logger = XLogger(
         log_level="INFO",
         log_mode="file",
-        log_name="aho",
+        log_name="c:/Users/nakada/Desktop/aho_file",
     )
     print("debug")
     logger.log_level = "debug"

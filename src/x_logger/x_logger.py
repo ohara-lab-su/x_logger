@@ -65,7 +65,7 @@ class XLogger:
             self.logger.addHandler(handler_stream)
             self.logger.propagate = False
 
-        elif self.log_mode == "rotating":
+        elif self.log_mode == "rotating" or self.log_mode == "rotate":
             if not self.log_name:
                 raise ValueError("log_name must be specified for rotating mode")
             # print(f"log_name = {log_name}")

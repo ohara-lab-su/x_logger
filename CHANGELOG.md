@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2025.07.29, v0.2.2, nakada
+
+- rotate / rotating どちらでもok
+
 ## 2025.07.29, v0.2.1, nakada
 
 - log name 関連をインスタンス変数化(get_xxx できるように)

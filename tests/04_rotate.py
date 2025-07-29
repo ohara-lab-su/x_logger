@@ -16,7 +16,9 @@ from x_logger import XLogger
 
 def test_xxx():
     logger = XLogger(
-        log_level="INFO", log_mode="file", log_name="c:/Users/nakada/Desktop/aho"
+        log_level="INFO",
+        log_mode="rotate",
+        log_name="c:/Users/nakada/Desktop/aho_rotate.txt",
     )
     print("debug")
     logger.log_level = "debug"
