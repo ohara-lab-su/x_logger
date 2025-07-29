@@ -26,15 +26,21 @@ class XLogger:
     ):
         if logger_name is None:
             logger_name = "SimpleLogger"
+
         self.logger = logging.getLogger(logger_name)
         for h in list(self.logger.handlers):
             self.logger.removeHandler(h)
         self.logger.setLevel(log_level.upper())
+
         fmt = "%(asctime)s %(name)s[%(process)d] %(levelname)s %(message)s"
         datefmt = "%Y-%m-%d %H:%M:%S"
+        # print(f"log_mode = {log_mode}")
+
         if log_mode == "file":
             if not log_name:
                 raise ValueError("log_name must be specified for file mode")
+            # print(f"log_name = {log_name}")
+
             handler = logging.FileHandler(log_name, encoding="utf-8")
             handler.setFormatter(logging.Formatter(fmt, datefmt))
             self.logger.addHandler(handler)
@@ -42,12 +48,18 @@ class XLogger:
         elif log_mode == "rotating":
             if not log_name:
                 raise ValueError("log_name must be specified for rotating mode")
+            # print(f"log_name = {log_name}")
+
             handler = TimedRotatingFileHandler(
-                log_name, when="midnight", backupCount=backup_count, encoding="utf-8"
+                log_name,
+                when="midnight",
+                backupCount=backup_count,
+                encoding="utf-8",
             )
             handler.setFormatter(logging.Formatter(fmt, datefmt))
             self.logger.addHandler(handler)
             self.logger.propagate = False
+
         else:  # default: 標準出力はroot loggerのcoloredlogsへ流すだけ
             self.logger.propagate = True
 
