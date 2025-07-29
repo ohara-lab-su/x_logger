@@ -11,7 +11,7 @@ import logging
 import coloredlogs
 from logging.handlers import TimedRotatingFileHandler
 
-# root logger へ coloredlogs install（競合回避）
+# root loggerへ一度だけ coloredlogs install（競合回避）
 if not getattr(logging, "_coloredlogs_installed", False):
     logging.getLogger().handlers.clear()
     coloredlogs.install(
@@ -28,7 +28,7 @@ class XLogger:
     def __init__(
         self,
         log_level="INFO",
-        log_mode="default",  # 'default', 'file', 'rotating'
+        log_mode="default",  # 'default'（画面のみ）, 'file', 'rotating'
         log_name=None,  # ファイル名
         backup_count=30,  # ローテート時の保存数（日数）
         logger_name=None,  # ロガー名
@@ -47,16 +47,11 @@ class XLogger:
         if log_mode == "file":
             if not log_name:
                 raise ValueError("log_name must be specified for file mode")
+            # print(f"log_name = {log_name}")
 
-            # ファイル出力
-            handler_file = logging.FileHandler(log_name, encoding="utf-8")
-            handler_file.setFormatter(logging.Formatter(fmt, datefmt))
-            self.logger.addHandler(handler_file)
-
-            # 標準出力にも同時出力（coloredlogsフォーマットで！）
-            handler_stream = logging.StreamHandler()
-            handler_stream.setFormatter(coloredlogs.ColoredFormatter(fmt, datefmt))
-            self.logger.addHandler(handler_stream)
+            handler = logging.FileHandler(log_name, encoding="utf-8")
+            handler.setFormatter(logging.Formatter(fmt, datefmt))
+            self.logger.addHandler(handler)
             self.logger.propagate = False
 
         elif log_mode == "rotating":
@@ -64,22 +59,17 @@ class XLogger:
                 raise ValueError("log_name must be specified for rotating mode")
             # print(f"log_name = {log_name}")
 
-            handler_rot = TimedRotatingFileHandler(
+            handler = TimedRotatingFileHandler(
                 log_name,
                 when="midnight",
                 backupCount=backup_count,
                 encoding="utf-8",
             )
-            handler_rot.setFormatter(logging.Formatter(fmt, datefmt))
-            self.logger.addHandler(handler_rot)
-
-            # 標準出力にも同時出力（coloredlogsフォーマットで！）
-            handler_stream = logging.StreamHandler()
-            handler_stream.setFormatter(coloredlogs.ColoredFormatter(fmt, datefmt))
-            self.logger.addHandler(handler_stream)
+            handler.setFormatter(logging.Formatter(fmt, datefmt))
+            self.logger.addHandler(handler)
             self.logger.propagate = False
 
-        else:  # 'default'（画面のみ）: root loggerに流すだけ
+        else:  # default: 標準出力はroot loggerのcoloredlogsへ流すだけ
             self.logger.propagate = True
 
     def get_logger(self):

@@ -11,23 +11,23 @@ import sys
 
 
 # LOG = logging.getLogger(__name__)
-from x_logger.version import __version__
-from x_logger.x_logger import XLogger
+from x_logger import XLogger
+
 
 def test_xxx():
-    logger = XLogger(log_level='INFO')
-    print('debug')
-    logger.log_level = 'debug'
+    logger = XLogger(log_level="INFO")
+    print("debug")
+    logger.log_level = "debug"
     logger.debug("debug AAAA")
 
-    print('info')
-    logger.log_level = 'INFO'
-    logger.info('INFO BBBB')
-    logger.debug('DEBUG BBBB')
+    print("info")
+    logger.log_level = "INFO"
+    logger.info("INFO BBBB")
+    logger.debug("DEBUG BBBB")
 
-    print('')
-    print('debug')
-    logger.log_level = 'debug'
-    logger.info('INFO CCCC')
-    logger.debug('DEBUG CCCC')
-    print('')
+    print("")
+    print("debug")
+    logger.log_level = "debug"
+    logger.info("INFO CCCC")
+    logger.debug("DEBUG CCCC")
+    print("")

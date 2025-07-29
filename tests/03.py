@@ -11,8 +11,7 @@ import sys
 
 
 # LOG = logging.getLogger(__name__)
-from x_logger.version import __version__
-from x_logger.x_logger import XLogger
+from x_logger import XLogger
 
 
 def test_xxx():
