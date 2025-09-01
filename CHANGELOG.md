@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2025.09.1, v0.2.3, nakada
+
+fix project.toml
+
 ## 2025.07.29, v0.2.2, nakada
 
 - rotate / rotating どちらでもok

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "x_logger"
 
-version = "0.2.2"
+version = "0.2.3"
 
 description = "logger"
 authors = [
@@ -13,7 +13,11 @@ authors = [
 ]
 readme = "README.md"
 requires-python = ">=3.8"
-dependencies = []
+
+dependencies = [
+"colorlog",
+"coloredlogs",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
