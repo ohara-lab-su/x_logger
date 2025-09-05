@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "x_logger"
 
-version = "0.2.3"
+version = "0.2.4"
 
 description = "logger"
 authors = [
