@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2025.09.5, v0.2.4, nakada
+
+- sphinx_docs: そもそもdocstringほとんど書いてないので意味がない
+
 ## 2025.09.1, v0.2.3, nakada
 
 fix project.toml
