@@ -1,11 +1,12 @@
 # sphinx_docs/conf.py
 import os, sys
 
-sys.path.insert(0, os.path.abspath("../src"))  # ← ここ超重要：src/ を import 可能に
+sys.path.insert(0, os.path.abspath("../src"))
 sys.path.insert(0, os.path.abspath("../../x_logger/src"))
 
 project = "Project"
 language = "ja"
+
 
 extensions = [
     "sphinx.ext.autodoc",
@@ -14,6 +15,27 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",  # google style
 ]
+
+# Markdown を有効化
+extensions = list(set(extensions + ["myst_parser"]))
+
+# .rst と .md の両方を読む
+source_suffix = {
+    ".rst": "restructuredtext",
+    ".md": "markdown",
+}
+
+# MyST のオプション（軽め）
+myst_enable_extensions = [
+    "deflist",
+    "attrs_block",
+    "substitution",
+    "colon_fence",
+    "linkify",
+]
+myst_linkify_fuzzy_links = True
+myst_heading_anchors = 3
+
 
 # autosummary で目録ページを自動生成
 autosummary_generate = True
@@ -73,6 +95,6 @@ intersphinx_mapping = {
     # x_logger のようなローカル/私家版はインベントリが無いので参照解決不可
 }
 
-# テーマ（見慣れた外観）
+# テーマ
 html_theme = "sphinx_rtd_theme"  # pip install sphinx-rtd-theme
 html_static_path = ["_static"]
