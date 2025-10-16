@@ -1,7 +1,11 @@
 # CHANGELOG
 
+## 2025.10.16, v0.2.6, nakada
+
+- added sphinx module (project.toml)
+ 
 ## 2025.09.5, v0.2.5, nakada
-- 
+ 
 - docs
  
 ## 2025.09.5, v0.2.4, nakada

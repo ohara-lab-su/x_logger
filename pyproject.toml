@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "x_logger"
 
-version = "0.2.5"
+version = "0.2.6"
 
 description = "logger"
 authors = [
@@ -17,6 +17,13 @@ requires-python = ">=3.8"
 dependencies = [
 "colorlog",
 "coloredlogs",
+#
+"sphinx",
+"myst-parser",
+"sphinx-autobuild",
+"sphinx-rtd-theme",
+"sphinxcontrib-napoleon",
+"linkify-it-py"
 ]
 
 [tool.pytest.ini_options]
