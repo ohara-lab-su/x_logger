@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2025.11.06, v0.2.8, nakada
+
+- symlink 方式を止める
+ 
 ## 2025.11.06, v0.2.7, nakada
 
 - python 3.6 環境でネットワークなし環境で setup するために
