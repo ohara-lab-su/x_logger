@@ -38,26 +38,22 @@ long_description = "x_logger"
 #    long_description = open('README.md').read()
 
 package_src_dir = "x_logger"
-print("*****************************************")
-packages = find_packages()
-print(packages)
-print("*****************************************")
+packages = find_packages("src")
 
 setup(
     name="x_logger",
-    # packages=find_packages(),
     packages=packages,
-    #       package_dir  = {'':'StructureAnalysisEnvironment'},
-    #       include_package_data=True,
-    #       package_data = { '': ['LICENSE.txt', 'README.md']},
+    package_dir={"": "src"},
+    # include_package_data=True,
+    # package_data = { '': ['LICENSE.txt', 'README.md']},
     # data_files=[(package_src_dir, files)],
     # scripts=script,
     version=__version__,
     description="XLogger",
     long_description=long_description,
     author="K.NAKADA",
-    #       author_email = ['kengo.nakada@gmail.com','kengo.nakada@spring8.or.jp'],
-    #       author_email = 'kengo.nakada@gmail.com',
+    # author_email = ['kengo.nakada@gmail.com','kengo.nakada@spring8.or.jp'],
+    # author_email = 'kengo.nakada@gmail.com',
     # author_email='kengo.nakada@spring8.or.jp',
     author_email="kengo.nakada@gmail.com",
     license="Apache2.0",
