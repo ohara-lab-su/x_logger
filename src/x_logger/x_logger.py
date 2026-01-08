@@ -111,20 +111,21 @@ class XLogger:
         for handler in self.logger.handlers:
             handler.setLevel(level.upper() if isinstance(level, str) else level)
 
-    def debug(self, msg):
-        self.logger.debug(msg)
+    def debug(self, msg: str, *args, **kwargs) -> None:
+        self.logger.debug(msg, *args, **kwargs)
 
-    def info(self, msg):
-        self.logger.info(msg)
+    def info(self, msg: str, *args, **kwargs) -> None:
+        self.logger.info(msg, *args, **kwargs)
 
-    def warning(self, msg):
-        self.logger.warning(msg)
+    def warning(self, msg: str, *args, **kwargs) -> None:
+        self.logger.warning(msg, *args, **kwargs)
 
-    def error(self, msg):
-        self.logger.error(msg)
+    def error(self, msg: str, *args, **kwargs) -> None:
+        self.logger.error(msg, *args, **kwargs)
 
-    def critical(self, msg):
-        self.logger.critical(msg)
+    def critical(self, msg: str, *args, **kwargs) -> None:
+        self.logger.critical(msg, *args, **kwargs)
 
-    def exception(self, msg, *args, **kwargs):
+    def exception(self, msg: str, *args, **kwargs) -> None:
         self.logger.exception(msg, *args, **kwargs)
+
