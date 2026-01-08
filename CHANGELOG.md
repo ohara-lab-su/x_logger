@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2026.01.08, v0.2.9, nakada
+
+- logger.debug(self, msg, *args) のような標準 logger に修正
+
 ## 2025.11.06, v0.2.8, nakada
 
 - symlink 方式を止める
