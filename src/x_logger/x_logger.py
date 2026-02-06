@@ -85,8 +85,20 @@ class XLogger:
             self.logger.addHandler(handler_stream)
             self.logger.propagate = False
 
-        else:  # 'default'（画面のみ）: root loggerに流すだけ
-            self.logger.propagate = True
+        else:  # 'default'（画面のみ）
+            # loglevel
+            handler_stream = logging.StreamHandler()
+            handler_stream.setLevel(self.log_level.upper())
+
+            # haldelr
+            try:
+                handler_stream.setFormatter(coloredlogs.ColoredFormatter(fmt, datefmt))
+            except Exception:
+                handler_stream.setFormatter(logging.Formatter(fmt, datefmt))
+            self.logger.addHandler(handler_stream)
+
+            # propagate
+            self.logger.propagate = False
 
     def get_log_level(self):
         return self.log_level

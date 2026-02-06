@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2026.02.06, v0.2.10, nakada
+
+- logger設定が、画面の見時にうまく機能しないバグを修正
+
 ## 2026.01.08, v0.2.9, nakada
 
 - logger.debug(self, msg, *args) のような標準 logger に修正
