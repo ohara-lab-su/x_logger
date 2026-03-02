@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>x_logger package &mdash; Project  ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=c033477b"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/translations.js?v=4755f45a"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
@@ -48,8 +48,15 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">x_logger</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">x_logger package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-x_logger.util">x_logger.util module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-x_logger.x_logger">x_logger.x_logger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-x_logger.util">x_logger.util module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#x_logger.util.get_silent_logger"><code class="docutils literal notranslate"><span class="pre">get_silent_logger()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#x_logger.util.safe_print_stack"><code class="docutils literal notranslate"><span class="pre">safe_print_stack()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-x_logger.x_logger">x_logger.x_logger module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#x_logger.x_logger.XLogger"><code class="docutils literal notranslate"><span class="pre">XLogger</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -89,9 +96,142 @@
 </section>
 <section id="module-x_logger.util">
 <span id="x-logger-util-module"></span><h2>x_logger.util module<a class="headerlink" href="#module-x_logger.util" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="x_logger.util.get_silent_logger">
+<span class="sig-name descname"><span class="pre">get_silent_logger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/util.html#get_silent_logger"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.util.get_silent_logger" title="Link to this definition"></a></dt>
+<dd><p>ロガー指定がないときにロガーが何も吐き出さないようにする</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="x_logger.util.safe_print_stack">
+<span class="sig-name descname"><span class="pre">safe_print_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/util.html#safe_print_stack"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.util.safe_print_stack" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 <section id="module-x_logger.x_logger">
 <span id="x-logger-x-logger-module"></span><h2>x_logger.x_logger module<a class="headerlink" href="#module-x_logger.x_logger" title="Link to this heading"></a></h2>
+<p>Logger</p>
+<p>DARUMA Logger -&gt;  Em Logger --&gt; X Logger -&gt; simple iba`版で再構築</p>
+<p>Kengo NAKADA, <a class="reference external" href="mailto:kengo&#46;nakada&#37;&#52;&#48;mat&#46;shimane-u&#46;ac&#46;jp">kengo<span>&#46;</span>nakada<span>&#64;</span>mat<span>&#46;</span>shimane-u<span>&#46;</span>ac<span>&#46;</span>jp</a>, <a class="reference external" href="mailto:kengo&#46;nakada&#37;&#52;&#48;gmail&#46;com">kengo<span>&#46;</span>nakada<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">XLogger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'INFO'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backup_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger" title="Link to this definition"></a></dt>
+<dd><p>ベースクラス: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.critical">
+<span class="sig-name descname"><span class="pre">critical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.critical"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.critical" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.debug">
+<span class="sig-name descname"><span class="pre">debug</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.debug"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.debug" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.error">
+<span class="sig-name descname"><span class="pre">error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.error"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.error" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.exception">
+<span class="sig-name descname"><span class="pre">exception</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.exception"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.exception" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.get_backup_count">
+<span class="sig-name descname"><span class="pre">get_backup_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.get_backup_count"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.get_backup_count" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.get_log_level">
+<span class="sig-name descname"><span class="pre">get_log_level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.get_log_level"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.get_log_level" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.get_log_mode">
+<span class="sig-name descname"><span class="pre">get_log_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.get_log_mode"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.get_log_mode" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.get_log_name">
+<span class="sig-name descname"><span class="pre">get_log_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.get_log_name"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.get_log_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.get_logger">
+<span class="sig-name descname"><span class="pre">get_logger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.get_logger"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.get_logger" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.get_logger_name">
+<span class="sig-name descname"><span class="pre">get_logger_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.get_logger_name"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.get_logger_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.info">
+<span class="sig-name descname"><span class="pre">info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.info"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.info" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.setLevel">
+<span class="sig-name descname"><span class="pre">setLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.setLevel"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.setLevel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="x_logger.x_logger.XLogger.warning">
+<span class="sig-name descname"><span class="pre">warning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/x_logger/x_logger.html#XLogger.warning"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#x_logger.x_logger.XLogger.warning" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
