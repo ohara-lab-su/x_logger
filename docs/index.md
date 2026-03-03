@@ -1,5 +1,5 @@
 
-Ese774 Frame 似非774 (Fast API Frame)
+x logger (ロガー)
 ---
 
 ```{toctree}
@@ -9,6 +9,12 @@ Ese774 Frame 似非774 (Fast API Frame)
 api/modules
 tutorials/intro
 ```
+
+# シンプルで単純なロガー
+
+- デバイスサーバー向け: ログのローテーション
+- デバイスの制御クライアント向け: 単純にファイルにログを保存
+- テスト用/サーバー用: ログの画面表示
 
 # 作者
 - Kengo NAKADA (中田謙吾)
