@@ -27,12 +27,25 @@ if not getattr(logging, "_coloredlogs_installed", False):
 class XLogger:
     def __init__(
         self,
-        log_level="INFO",
+        log_level=None,
+        loglevel=None, # logging互換
         log_mode="default",  # 'default', 'file', 'rotating'
         log_name=None,  # ファイル名
         backup_count=30,  # ローテート時の保存数（日数）
         logger_name=None,  # ロガー名
     ):
+        # 両方ある時は loglovel を使わない
+        if log_level is not None and loglevel is not None:
+            loglevel = None
+        # log_leve がなくて、loglevel があるときは loglevel を log_level にする
+        if log_level is None and loglevel is not None:
+            log_level = loglevel
+        elif log_level is not None and loglevel is None:
+            # log_level 表記をベースにする(何もする必要はない)
+            pass
+        else:
+            log_level = "INFO"
+
         self.log_level = log_level
         self.log_mode = log_mode
         self.log_name = log_name
