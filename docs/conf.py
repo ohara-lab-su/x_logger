@@ -90,7 +90,7 @@ autodoc_mock_imports = [
     # "torch", "opencv", "tensorflow", ...
     "win32com",
     "pythoncom",
-    "x_logger",
+    # "x_logger",
 ]
 
 intersphinx_mapping = {
