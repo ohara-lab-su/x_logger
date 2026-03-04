@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2026.03.04, v0.2.11, nakada
+
+- loglevel オプションを導入(logging 互換)
+  (内部的には log_level とする)
+
 ## 2026.02.06, v0.2.10, nakada
 
 - logger設定が、画面の見時にうまく機能しないバグを修正
