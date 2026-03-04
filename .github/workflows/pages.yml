@@ -14,17 +14,21 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
-          pip install sphinx myst-parser sphinx-rtd-theme
+          python -m pip install -U pip
+          python -m pip install sphinx myst-parser sphinx-rtd-theme linkify-it-py
 
       - name: Build Sphinx
         run: |
-          sphinx-build -b html docs docs/_build/html
+          bash docs/build.sh
+          touch docs/_build/html/.nojekyll
 
       - name: Upload
         uses: actions/upload-pages-artifact@v3
