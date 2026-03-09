@@ -1,5 +1,5 @@
 
-x logger (ロガー)
+# x logger (ロガー)
 ---
 
 ```{toctree}
@@ -9,6 +9,9 @@ x logger (ロガー)
 api/modules
 tutorials/logger_intro
 ```
+view on [github](https://github.com/ohara-lab-su/x_logger/)
+
+---
 
 # シンプルで単純なロガー
 
@@ -21,9 +24,17 @@ tutorials/logger_intro
 - デバイスの制御クライアント向け: 単純にファイルにログを保存
 - テスト用/サーバー用: ログの画面表示
 
+ロガーを複数立ち上げてしまうとおかしくなる現象を避けるために、
+いろいろな工夫をしているのでわりと堅牢なロガーになっている（と思う）
+
 ## 使い方
 
-このロガーの代わりに logging を使ってログ機能を使う時
+print() の代わりに logger を使うことで、時間とクラスやメソッドの情報などを含めて
+全ての状況を記録することが可能です。
+
+### logging を使う
+
+このロガーの代わりに単純に logging を使ってログ機能を使う時
 
 ```python
 
@@ -36,7 +47,10 @@ logger = logging.getLogger(__name__)
 logger.info("Hello")
 ```
 
-### ロガーの基礎
+自分でフォーマッタを含めて、毎回全てを記述するならば、そのまま logging を素で使うのでも構わないがあまり現実ではない。
+特にマルチプロセスやマルチスレッド環境では注意する必要がある。
+
+### x_logger を使う時にロガーの基礎
 
 print の代わりに使います。loglvel で切り替えることができます。
 
