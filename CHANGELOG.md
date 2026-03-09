@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2026.03.09, v0.2.12, nakada
+
+ドキュメント調整
+
 ## 2026.03.04, v0.2.11, nakada
 
 - loglevel オプションを導入(logging 互換)
