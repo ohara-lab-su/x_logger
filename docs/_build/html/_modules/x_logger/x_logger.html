@@ -58,7 +58,10 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/intro.html">チュートリアル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/logger_intro.html">チュートリアル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/logger_intro.html#id2">ログローテーション機能を使う</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -117,12 +120,25 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">XLogger</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">log_level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+        <span class="n">log_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">loglevel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="c1"># logging互換</span>
         <span class="n">log_mode</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span>  <span class="c1"># &#39;default&#39;, &#39;file&#39;, &#39;rotating&#39;</span>
         <span class="n">log_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># ファイル名</span>
         <span class="n">backup_count</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>  <span class="c1"># ローテート時の保存数（日数）</span>
         <span class="n">logger_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># ロガー名</span>
     <span class="p">):</span>
+        <span class="c1"># 両方ある時は loglovel を使わない</span>
+        <span class="k">if</span> <span class="n">log_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">loglevel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">loglevel</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># log_leve がなくて、loglevel があるときは loglevel を log_level にする</span>
+        <span class="k">if</span> <span class="n">log_level</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">loglevel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">log_level</span> <span class="o">=</span> <span class="n">loglevel</span>
+        <span class="k">elif</span> <span class="n">log_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">loglevel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># log_level 表記をベースにする(何もする必要はない)</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">log_level</span> <span class="o">=</span> <span class="s2">&quot;INFO&quot;</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="n">log_level</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log_mode</span> <span class="o">=</span> <span class="n">log_mode</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log_name</span> <span class="o">=</span> <span class="n">log_name</span>
