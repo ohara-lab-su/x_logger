@@ -1,7 +1,7 @@
-
 # x logger (ロガー)
----
+view on [github](https://github.com/ohara-lab-su/x_logger/)
 
+---
 ```{toctree}
 :maxdepth: 2
 :caption: Contents:
@@ -9,8 +9,6 @@
 api/modules
 tutorials/logger_intro
 ```
-view on [github](https://github.com/ohara-lab-su/x_logger/)
-
 ---
 
 # シンプルで単純なロガー
