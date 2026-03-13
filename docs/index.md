@@ -1,5 +1,4 @@
 # x logger (ロガー)
-K.NAKADA (Shimane University)  
 view on [github](https://github.com/ohara-lab-su/x_logger/) / [ohara-lab-su (doc)](https://ohara-lab-su.github.io/)
 
 
@@ -153,6 +152,7 @@ def test_xxx():
     print("")
 ```
 
+---
 # 作者
 - Kengo NAKADA (中田謙吾)
   - kengo.nakada@mat.shimane-u.ac.jp
