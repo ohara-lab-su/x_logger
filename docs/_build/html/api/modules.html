@@ -8,20 +8,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>x_logger &mdash; Project  ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=c033477b"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/translations.js?v=4755f45a"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="x_logger package" href="x_logger.html" />
-    <link rel="prev" title="Welcome to cobotta2 documentation!" href="../index.html" /> 
+    <link rel="prev" title="x logger (ロガー)" href="../index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,10 +46,26 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">x_logger</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="x_logger.html">x_logger package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x_logger.html">x_logger package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="x_logger.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="x_logger.html#module-x_logger.util">x_logger.util module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.util.get_silent_logger"><code class="docutils literal notranslate"><span class="pre">get_silent_logger()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.util.safe_print_stack"><code class="docutils literal notranslate"><span class="pre">safe_print_stack()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">チュートリアル</a></li>
+<li class="toctree-l3"><a class="reference internal" href="x_logger.html#module-x_logger.x_logger">x_logger.x_logger module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger"><code class="docutils literal notranslate"><span class="pre">XLogger</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/logger_intro.html">チュートリアル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/logger_intro.html#id2">ログローテーション機能を使う</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/logger_intro.html#id3">作者</a></li>
 </ul>
 
         </div>
@@ -82,8 +98,30 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="x_logger.html">x_logger package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="x_logger.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="x_logger.html#module-x_logger.util">x_logger.util module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="x_logger.html#module-x_logger.x_logger">x_logger.x_logger module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="x_logger.html#module-x_logger.util">x_logger.util module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="x_logger.html#x_logger.util.get_silent_logger"><code class="docutils literal notranslate"><span class="pre">get_silent_logger()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="x_logger.html#x_logger.util.safe_print_stack"><code class="docutils literal notranslate"><span class="pre">safe_print_stack()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="x_logger.html#module-x_logger.x_logger">x_logger.x_logger module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger"><code class="docutils literal notranslate"><span class="pre">XLogger</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.critical"><code class="docutils literal notranslate"><span class="pre">XLogger.critical()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.debug"><code class="docutils literal notranslate"><span class="pre">XLogger.debug()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.error"><code class="docutils literal notranslate"><span class="pre">XLogger.error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.exception"><code class="docutils literal notranslate"><span class="pre">XLogger.exception()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.get_backup_count"><code class="docutils literal notranslate"><span class="pre">XLogger.get_backup_count()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.get_log_level"><code class="docutils literal notranslate"><span class="pre">XLogger.get_log_level()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.get_log_mode"><code class="docutils literal notranslate"><span class="pre">XLogger.get_log_mode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.get_log_name"><code class="docutils literal notranslate"><span class="pre">XLogger.get_log_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.get_logger"><code class="docutils literal notranslate"><span class="pre">XLogger.get_logger()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.get_logger_name"><code class="docutils literal notranslate"><span class="pre">XLogger.get_logger_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.info"><code class="docutils literal notranslate"><span class="pre">XLogger.info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.setLevel"><code class="docutils literal notranslate"><span class="pre">XLogger.setLevel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="x_logger.html#x_logger.x_logger.XLogger.warning"><code class="docutils literal notranslate"><span class="pre">XLogger.warning()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -94,7 +132,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to cobotta2 documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="x logger (ロガー)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="x_logger.html" class="btn btn-neutral float-right" title="x_logger package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -6,16 +6,16 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to cobotta2 documentation! &mdash; Project  ドキュメント</title>
+  <title>x logger (ロガー) &mdash; Project  ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=c033477b"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/translations.js?v=4755f45a"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="索引" href="genindex.html" />
@@ -44,8 +44,27 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api/modules.html">x_logger</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/intro.html">チュートリアル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">x_logger</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/x_logger.html">x_logger package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/x_logger.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/x_logger.html#module-x_logger.util">x_logger.util module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/x_logger.html#x_logger.util.get_silent_logger"><code class="docutils literal notranslate"><span class="pre">get_silent_logger()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/x_logger.html#x_logger.util.safe_print_stack"><code class="docutils literal notranslate"><span class="pre">safe_print_stack()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/x_logger.html#module-x_logger.x_logger">x_logger.x_logger module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/x_logger.html#x_logger.x_logger.XLogger"><code class="docutils literal notranslate"><span class="pre">XLogger</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/logger_intro.html">チュートリアル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/logger_intro.html#id2">ログローテーション機能を使う</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/logger_intro.html#id3">作者</a></li>
 </ul>
 
         </div>
@@ -62,9 +81,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Welcome to cobotta2 documentation!</li>
+      <li class="breadcrumb-item active">x logger (ロガー)</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/index.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -72,8 +91,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="welcome-to-cobotta2-documentation">
-<h1>Welcome to cobotta2 documentation!<a class="headerlink" href="#welcome-to-cobotta2-documentation" title="Link to this heading"></a></h1>
+  <section id="x-logger">
+<h1>x logger (ロガー)<a class="headerlink" href="#x-logger" title="Link to this heading"></a></h1>
+<p>view on <a class="reference external" href="https://github.com/ohara-lab-su/x_logger/">github</a> / <a class="reference external" href="https://ohara-lab-su.github.io/">ohara-lab-su (doc)</a></p>
+<hr class="docutils" />
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -81,9 +102,153 @@
 <li class="toctree-l2"><a class="reference internal" href="api/x_logger.html">x_logger package</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/intro.html">チュートリアル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/logger_intro.html">チュートリアル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/logger_intro.html#id2">ログローテーション機能を使う</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/logger_intro.html#id3">作者</a></li>
 </ul>
 </div>
+</section>
+<hr class="docutils" />
+<section id="id1">
+<h1>シンプルで単純なロガー<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>プログラムの動作記録のための基本ソフトウエア。
+ある意味プログラムで一番中心となる根幹クラスライブラリである</p>
+<p>主に３つの機能を用意していある</p>
+<ul class="simple">
+<li><p>デバイスサーバー向け: ログのローテーション</p></li>
+<li><p>デバイスの制御クライアント向け: 単純にファイルにログを保存</p></li>
+<li><p>テスト用/サーバー用: ログの画面表示</p></li>
+</ul>
+<p>ロガーを複数立ち上げてしまうとおかしくなる現象を避けるために、
+いろいろな工夫をしているのでわりと堅牢なロガーになっている（と思う）</p>
+<section id="id2">
+<h2>使い方<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>print() の代わりに logger を使うことで、時間とクラスやメソッドの情報などを含めて
+全ての状況を記録することが可能です。</p>
+<section id="logging">
+<h3>logging を使う<a class="headerlink" href="#logging" title="Link to this heading"></a></h3>
+<p>このロガーの代わりに単純に logging を使ってログ機能を使う時</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">log_level</span> <span class="o">=</span> <span class="s2">&quot;INFO&quot;</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">log_level</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>自分でフォーマッタを含めて、毎回全てを記述するならば、そのまま logging を素で使うのでも構わないがあまり現実ではない。
+特にマルチプロセスやマルチスレッド環境では注意する必要がある。</p>
+</section>
+<section id="id3">
+<h3>x_logger を使う時にロガーの基礎<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>print の代わりに使います。loglvel で切り替えることができます。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">x_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">Logger</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span><span class="n">log_level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>ログレベル info だと</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">x_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">Logger</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span><span class="n">log_level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>今はログレベルが info なので、<code class="docutils literal notranslate"><span class="pre">logger.debug('DEBUG')</span></code> は表示されない。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span><span class="n">log_level</span><span class="o">=</span><span class="s2">&quot;debug&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>このときはログレベルが debug なので、<code class="docutils literal notranslate"><span class="pre">logger.debug('DEBUG')</span></code> は表示される</p>
+<p>画面上には</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>2026-03-05 10:24:54 JoyPadClient[138144] INFO [Frame:GrpcClient][joypad_send_dpose] completed
+</pre></div>
+</div>
+<p>のように、時間と使っているプログラム名・クラス名などとともに、
+どの状態のログなのか？が表示できる</p>
+</section>
+<section id="id4">
+<h3>ログをファイル保存<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test_xxx</span><span class="p">():</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">XLogger</span><span class="p">(</span>
+        <span class="n">log_level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+        <span class="n">log_mode</span><span class="o">=</span><span class="s2">&quot;file&quot;</span><span class="p">,</span>
+        <span class="n">log_name</span><span class="o">=</span><span class="s2">&quot;c:/Users/nakada/Desktop/aho_file&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="s2">&quot;debug&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;debug AAAA&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="s2">&quot;INFO&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;INFO BBBB&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;DEBUG BBBB&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="s2">&quot;debug&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;INFO CCCC&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;DEBUG CCCC&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>指定ファイルに保存される</p>
+</section>
+<section id="id5">
+<h3>ローテーション機能を使う<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>サーバーなどを立ち上げっぱなしだとログファイルのサイズが大きくなってします。
+そのためのローテーションという作業を行う</p>
+<div class="highlight-aiignore notranslate"><div class="highlight"><pre><span></span>log20260306
+log20260307
+log20260308
+</pre></div>
+</div>
+<p>などの日付ごとなど、いろいろな設定が可能であるが。
+とりあえずデフォルトで良い。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">x_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">XLogger</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_xxx</span><span class="p">():</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">XLogger</span><span class="p">(</span>
+        <span class="n">log_level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+        <span class="n">log_mode</span><span class="o">=</span><span class="s2">&quot;rotate&quot;</span><span class="p">,</span>
+        <span class="n">log_name</span><span class="o">=</span><span class="s2">&quot;c:/Users/nakada/Desktop/aho_rotate.txt&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="s2">&quot;debug&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;debug AAAA&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="s2">&quot;INFO&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;INFO BBBB&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;DEBUG BBBB&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="s2">&quot;debug&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;INFO CCCC&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;DEBUG CCCC&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id6">
+<h1>作者<a class="headerlink" href="#id6" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>Kengo NAKADA (中田謙吾)</p>
+<ul>
+<li><p><a class="reference external" href="mailto:kengo&#46;nakada&#37;&#52;&#48;mat&#46;shimane-u&#46;ac&#46;jp">kengo<span>&#46;</span>nakada<span>&#64;</span>mat<span>&#46;</span>shimane-u<span>&#46;</span>ac<span>&#46;</span>jp</a></p></li>
+<li><p><a class="reference external" href="mailto:kengo&#46;nakada&#37;&#52;&#48;gmail&#46;com">kengo<span>&#46;</span>nakada<span>&#64;</span>gmail<span>&#46;</span>com</a></p></li>
+</ul>
+</li>
+</ul>
 </section>
 
 
