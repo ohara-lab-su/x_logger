@@ -1,6 +1,5 @@
 # CHANGELOG
 
-
 ## 2026.07.28, v0.2.15, nakada
 
 - after cobotta3/4 setup
