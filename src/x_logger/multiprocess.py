@@ -5,7 +5,7 @@ import logging
 import multiprocessing
 import os
 from logging.handlers import QueueHandler, QueueListener
-from typing import List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from .x_logger import (
     XLogger,
@@ -15,7 +15,21 @@ from .x_logger import (
 
 
 class MultiProcessXLogger(XLogger):
-    """複数 process から一つの logical logger へ出力する XLogger。"""
+    """複数 process の LogRecord を一つの logical logger へ集約する。
+
+    owner process が QueueListener と実際の出力 handler を保持し、child
+    process は QueueHandler を介して LogRecord を owner 側へ送る。これにより
+    console/file/rotating 出力を一か所で処理し、各 LogRecord の PID も保持する。
+
+    Args:
+        log_level: logging level。文字列または logging の整数 level を指定する。
+        loglevel: ``log_level`` の互換 alias。``log_level`` が優先される。
+        log_mode: ``default``、``file``、``rotating`` または ``rotate``。
+        log_name: file/rotating mode で使用するログファイル名。
+        backup_count: rotating mode で保持するバックアップ数。
+        logger_name: Python logging の named logger 名。
+        start_method: multiprocessing の start method。None は環境既定値を使う。
+    """
 
     def __init__(
         self,
@@ -26,7 +40,7 @@ class MultiProcessXLogger(XLogger):
         backup_count=30,
         logger_name=None,
         start_method=None,
-    ):
+    ) -> None:
         effective_name = logger_name
         if effective_name is None:
             effective_name = "SimpleLogger"
@@ -73,18 +87,21 @@ class MultiProcessXLogger(XLogger):
             self,
         )
 
-    def _install_queue_handler(self):
+    def _install_queue_handler(self) -> None:
+        """現在の process の named logger に QueueHandler を接続する。"""
         queue_handler = QueueHandler(self._queue)
         queue_handler.setLevel(self._normalize_level(self.log_level))
         self._mark_handler(queue_handler)
         self.logger.addHandler(queue_handler)
 
-    def _close_sink_handlers(self):
+    def _close_sink_handlers(self) -> None:
+        """owner が保持する実出力 handler をすべて閉じる。"""
         for handler in self._sink_handlers:
             self._close_handler(handler)
         self._sink_handlers = []
 
-    def _prepare_client_process(self):
+    def _prepare_client_process(self) -> None:
+        """fork 後の child process を QueueHandler 構成へ切り替える。"""
         current_pid = os.getpid()
         if current_pid == self._owner_pid:
             return
@@ -101,7 +118,8 @@ class MultiProcessXLogger(XLogger):
         self.logger.propagate = False
         self._install_queue_handler()
 
-    def _shutdown_owner(self, logger):
+    def _shutdown_owner(self, logger: logging.Logger) -> None:
+        """owner process の listener、handler、queue を順序よく終了する。"""
         if os.getpid() != self._owner_pid:
             return
 
@@ -129,7 +147,8 @@ class MultiProcessXLogger(XLogger):
             self._queue.join_thread()
             self._closed = True
 
-    def close(self):
+    def close(self) -> None:
+        """現在の process が保持する multiprocessing logging 資源を閉じる。"""
         if self._closed:
             return
 
@@ -144,7 +163,8 @@ class MultiProcessXLogger(XLogger):
         self._queue.join_thread()
         self._closed = True
 
-    def setLevel(self, level):
+    def setLevel(self, level: Union[int, str]) -> None:
+        """QueueHandler と owner 側 sink handler の logging level を変更する。"""
         self._prepare_client_process()
         super().setLevel(level)
 
@@ -153,31 +173,68 @@ class MultiProcessXLogger(XLogger):
             for handler in self._sink_handlers:
                 handler.setLevel(normalized_level)
 
-    def debug(self, msg: str, *args, **kwargs) -> None:
+    def debug(
+        self,
+        msg: str,
+        *args: Any,
+        **kwargs: Any
+    ) -> None:
+        """child process 構成を確認してから debug ログを出力する。"""
         self._prepare_client_process()
         super().debug(msg, *args, **kwargs)
 
-    def info(self, msg: str, *args, **kwargs) -> None:
+    def info(
+        self,
+        msg: str,
+        *args: Any,
+        **kwargs: Any
+    ) -> None:
+        """child process 構成を確認してから info ログを出力する。"""
         self._prepare_client_process()
         super().info(msg, *args, **kwargs)
 
-    def warning(self, msg: str, *args, **kwargs) -> None:
+    def warning(
+        self,
+        msg: str,
+        *args: Any,
+        **kwargs: Any
+    ) -> None:
+        """child process 構成を確認してから warning ログを出力する。"""
         self._prepare_client_process()
         super().warning(msg, *args, **kwargs)
 
-    def error(self, msg: str, *args, **kwargs) -> None:
+    def error(
+        self,
+        msg: str,
+        *args: Any,
+        **kwargs: Any
+    ) -> None:
+        """child process 構成を確認してから error ログを出力する。"""
         self._prepare_client_process()
         super().error(msg, *args, **kwargs)
 
-    def critical(self, msg: str, *args, **kwargs) -> None:
+    def critical(
+        self,
+        msg: str,
+        *args: Any,
+        **kwargs: Any
+    ) -> None:
+        """child process 構成を確認してから critical ログを出力する。"""
         self._prepare_client_process()
         super().critical(msg, *args, **kwargs)
 
-    def exception(self, msg: str, *args, **kwargs) -> None:
+    def exception(
+        self,
+        msg: str,
+        *args: Any,
+        **kwargs: Any
+    ) -> None:
+        """child process 構成を確認してから exception ログを出力する。"""
         self._prepare_client_process()
         super().exception(msg, *args, **kwargs)
 
-    def __getstate__(self):
+    def __getstate__(self) -> Dict[str, Any]:
+        """spawn 用に listener と sink handler を除いた状態を返す。"""
         state = self.__dict__.copy()
         state["logger"] = None
         state["_listener"] = None
@@ -186,7 +243,8 @@ class MultiProcessXLogger(XLogger):
         state["_closed"] = False
         return state
 
-    def __setstate__(self, state):
+    def __setstate__(self, state: Dict[str, Any]) -> None:
+        """spawn された child process で QueueHandler 構成を復元する。"""
         self.__dict__.update(state)
         self.logger = logging.getLogger(self.logger_name)
         self._remove_xlogger_handlers()
