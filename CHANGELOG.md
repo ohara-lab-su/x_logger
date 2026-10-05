@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 2026.10.05, v0.3.0, nakada
+
+- v0.2.15 を基準に logger 構成を再設計
+- Python logging の named logger を基盤として `logger_name` を
+  logical logger の識別名として統一
+- XLogger が生成した handler を識別し、同一 logger の再設定時に
+  XLogger 管理 handler のみを置換する構成へ変更
+- `default`、`file`、`rotating` / `rotate` の既存出力モードを維持
+- `file` と `rotating` は console への同時出力を維持
+- `setLevel()` で logger と XLogger 管理 handler の level を同期
+- multiprocessing 用 `MultiProcessXLogger` を `multiprocess.py` に追加
+- multiprocessing では QueueHandler / QueueListener を使用し、
+  file / rotating handler を owner process に集約
+- `fork` と `spawn` の multiprocessing 構成に対応
+
 ## 2026.07.28, v0.2.15, nakada
 
 - after cobotta3/4 setup
