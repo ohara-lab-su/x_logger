@@ -1,52 +1,52 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Logger
+XLogger
 
-DARUMA Logger ->  Em Logger --> X Logger -> simple iba`版で再構築
-
-Kengo NAKADA, kengo.nakada@mat.shimane-u.ac.jp, kengo.nakada@gmail.com
+Python logging の named logger を基盤として、console、file、
+TimedRotatingFileHandler を簡単に構成する。
 """
 import logging
-import coloredlogs
 from logging.handlers import TimedRotatingFileHandler
+from typing import List, Optional, Union
 
-# root logger へ coloredlogs install（競合回避）
+import coloredlogs
+
+
+_LOG_FORMAT = (
+    "%(asctime)s %(name)s[%(process)d] %(levelname)s %(message)s"
+)
+_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+_HANDLER_OWNER_ATTRIBUTE = "_x_logger_handler"
+_MULTIPROCESS_RUNTIME_ATTRIBUTE = "_x_logger_multiprocess_runtime"
+
+
+# root logger の coloredlogs 設定はプロセス内で一度だけ行う。
 if not getattr(logging, "_coloredlogs_installed", False):
     logging.getLogger().handlers.clear()
     coloredlogs.install(
         level="INFO",
         logger=logging.getLogger(),
-        fmt="%(asctime)s %(name)s[%(process)d] %(levelname)s %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
+        fmt=_LOG_FORMAT,
+        datefmt=_DATE_FORMAT,
     )
     logging.getLogger().setLevel(logging.INFO)
     setattr(logging, "_coloredlogs_installed", True)
 
 
 class XLogger:
+    """Python logging の named logger を簡単に構成する logger。"""
+
     def __init__(
         self,
         log_level=None,
-        loglevel=None, # logging互換
-        log_mode="default",  # 'default', 'file', 'rotating'
-        log_name=None,  # ファイル名
-        backup_count=30,  # ローテート時の保存数（日数）
-        logger_name=None,  # ロガー名
+        loglevel=None,
+        log_mode="default",
+        log_name=None,
+        backup_count=30,
+        logger_name=None,
     ):
-        # 両方ある時は loglovel を使わない
-        if log_level is not None and loglevel is not None:
-            loglevel = None
-        # log_leve がなくて、loglevel があるときは loglevel を log_level にする
-        if log_level is None and loglevel is not None:
-            log_level = loglevel
-        elif log_level is not None and loglevel is None:
-            # log_level 表記をベースにする(何もする必要はない)
-            pass
-        else:
-            log_level = "INFO"
-
-        self.log_level = log_level
+        self.log_level = self._resolve_log_level(log_level, loglevel)
         self.log_mode = log_mode
         self.log_name = log_name
         self.backup_count = backup_count
@@ -54,64 +54,135 @@ class XLogger:
 
         if self.logger_name is None:
             self.logger_name = "SimpleLogger"
+
         self.logger = logging.getLogger(self.logger_name)
+        self._shutdown_previous_multiprocess_runtime()
+        self._remove_xlogger_handlers()
+        self.logger.setLevel(self._normalize_level(self.log_level))
+        self.logger.propagate = False
 
-        for h in list(self.logger.handlers):
-            self.logger.removeHandler(h)
-        self.logger.setLevel(self.log_level.upper())
+        handlers = self._build_output_handlers()
+        self._attach_handlers(handlers)
 
-        fmt = "%(asctime)s %(name)s[%(process)d] %(levelname)s %(message)s"
-        datefmt = "%Y-%m-%d %H:%M:%S"
+    @staticmethod
+    def _resolve_log_level(log_level, loglevel):
+        if log_level is not None:
+            return log_level
+        if loglevel is not None:
+            return loglevel
+        return "INFO"
+
+    @staticmethod
+    def _normalize_level(level):
+        if isinstance(level, str):
+            return level.upper()
+        return level
+
+    @staticmethod
+    def _mark_handler(handler):
+        setattr(handler, _HANDLER_OWNER_ATTRIBUTE, True)
+        return handler
+
+    @staticmethod
+    def _close_handler(handler):
+        try:
+            handler.flush()
+        except Exception:
+            pass
+        try:
+            handler.close()
+        except Exception:
+            pass
+
+    def _shutdown_previous_multiprocess_runtime(self):
+        runtime = getattr(
+            self.logger,
+            _MULTIPROCESS_RUNTIME_ATTRIBUTE,
+            None,
+        )
+        if runtime is None:
+            return
+
+        shutdown = getattr(runtime, "_shutdown_owner", None)
+        if shutdown is not None:
+            shutdown(self.logger)
+
+    def _remove_xlogger_handlers(self):
+        for handler in list(self.logger.handlers):
+            if getattr(handler, _HANDLER_OWNER_ATTRIBUTE, False):
+                self.logger.removeHandler(handler)
+                self._close_handler(handler)
+
+    def _stream_handler(self):
+        handler = logging.StreamHandler()
+        handler.setLevel(self._normalize_level(self.log_level))
+        try:
+            formatter = coloredlogs.ColoredFormatter(
+                _LOG_FORMAT,
+                _DATE_FORMAT,
+            )
+        except Exception:
+            formatter = logging.Formatter(
+                _LOG_FORMAT,
+                _DATE_FORMAT,
+            )
+        handler.setFormatter(formatter)
+        return self._mark_handler(handler)
+
+    def _file_handler(self):
+        if not self.log_name:
+            raise ValueError("log_name must be specified for file mode")
+
+        handler = logging.FileHandler(
+            self.log_name,
+            encoding="utf-8",
+        )
+        handler.setLevel(self._normalize_level(self.log_level))
+        handler.setFormatter(
+            logging.Formatter(_LOG_FORMAT, _DATE_FORMAT)
+        )
+        return self._mark_handler(handler)
+
+    def _rotating_handler(self):
+        if not self.log_name:
+            raise ValueError(
+                "log_name must be specified for rotating mode"
+            )
+
+        handler = TimedRotatingFileHandler(
+            self.log_name,
+            when="midnight",
+            backupCount=self.backup_count,
+            encoding="utf-8",
+        )
+        handler.setLevel(self._normalize_level(self.log_level))
+        handler.setFormatter(
+            logging.Formatter(_LOG_FORMAT, _DATE_FORMAT)
+        )
+        return self._mark_handler(handler)
+
+    def _build_output_handlers(self):
+        handlers = []  # type: List[logging.Handler]
 
         if self.log_mode == "file":
-            if not self.log_name:
-                raise ValueError("log_name must be specified for file mode")
-
-            # ファイル出力
-            handler_file = logging.FileHandler(self.log_name, encoding="utf-8")
-            handler_file.setFormatter(logging.Formatter(fmt, datefmt))
-            self.logger.addHandler(handler_file)
-
-            # 標準出力にも同時出力（coloredlogsフォーマットで！）
-            handler_stream = logging.StreamHandler()
-            handler_stream.setFormatter(coloredlogs.ColoredFormatter(fmt, datefmt))
-            self.logger.addHandler(handler_stream)
-            self.logger.propagate = False
-
+            handlers.append(self._file_handler())
         elif self.log_mode == "rotating" or self.log_mode == "rotate":
-            if not self.log_name:
-                raise ValueError("log_name must be specified for rotating mode")
-            # print(f"log_name = {log_name}")
+            handlers.append(self._rotating_handler())
 
-            handler_rot = TimedRotatingFileHandler(
-                self.log_name,
-                when="midnight",
-                backupCount=self.backup_count,
-                encoding="utf-8",
-            )
-            handler_rot.setFormatter(logging.Formatter(fmt, datefmt))
-            self.logger.addHandler(handler_rot)
+        handlers.append(self._stream_handler())
+        return handlers
 
-            # 標準出力にも同時出力（coloredlogsフォーマットで！）
-            handler_stream = logging.StreamHandler()
-            handler_stream.setFormatter(coloredlogs.ColoredFormatter(fmt, datefmt))
-            self.logger.addHandler(handler_stream)
-            self.logger.propagate = False
+    def _attach_handlers(self, handlers):
+        for handler in handlers:
+            self.logger.addHandler(handler)
 
-        else:  # 'default'（画面のみ）
-            # loglevel
-            handler_stream = logging.StreamHandler()
-            handler_stream.setLevel(self.log_level.upper())
-
-            # haldelr
-            try:
-                handler_stream.setFormatter(coloredlogs.ColoredFormatter(fmt, datefmt))
-            except Exception:
-                handler_stream.setFormatter(logging.Formatter(fmt, datefmt))
-            self.logger.addHandler(handler_stream)
-
-            # propagate
-            self.logger.propagate = False
+    def _detach_output_handlers(self):
+        handlers = []  # type: List[logging.Handler]
+        for handler in list(self.logger.handlers):
+            if getattr(handler, _HANDLER_OWNER_ATTRIBUTE, False):
+                self.logger.removeHandler(handler)
+                handlers.append(handler)
+        return handlers
 
     def get_log_level(self):
         return self.log_level
@@ -132,9 +203,12 @@ class XLogger:
         return self.logger
 
     def setLevel(self, level):
-        self.logger.setLevel(level.upper() if isinstance(level, str) else level)
+        self.log_level = level
+        normalized_level = self._normalize_level(level)
+        self.logger.setLevel(normalized_level)
         for handler in self.logger.handlers:
-            handler.setLevel(level.upper() if isinstance(level, str) else level)
+            if getattr(handler, _HANDLER_OWNER_ATTRIBUTE, False):
+                handler.setLevel(normalized_level)
 
     def debug(self, msg: str, *args, **kwargs) -> None:
         self.logger.debug(msg, *args, **kwargs)
@@ -153,4 +227,3 @@ class XLogger:
 
     def exception(self, msg: str, *args, **kwargs) -> None:
         self.logger.exception(msg, *args, **kwargs)
-
