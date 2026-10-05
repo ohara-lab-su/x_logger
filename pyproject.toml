@@ -3,7 +3,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "x_logger"
+#name = "x_logger"
+name = "xlogger-py"
 
 version = "0.3.0"
 
