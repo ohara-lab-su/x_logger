@@ -4,6 +4,7 @@ build/
 dist/
 *.egg-info/
 .run/
-# sphinx_docs/_build/
+docs/_build/
+tests/logs/
 sphinx_docs/soruce/
 sphinx_docs/locales/
