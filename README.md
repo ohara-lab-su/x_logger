@@ -1,8 +1,5 @@
 # x_logger
 
-[ohara-lab-su](https://ohara-lab-su.github.io/)/
-[x_logger](https://ohara-lab-su.github.io/x_logger/)
-
 ## 名前の由来
 
 `daruma` 用 logger、`elves` 用の `el_logger` など、プロジェクトごとに

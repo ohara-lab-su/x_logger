@@ -1,31 +1,58 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""x_logger の補助ユーティリティ。"""
 import os
-import builtins
 import traceback
 from types import SimpleNamespace
+from typing import Any, Optional
 
-def get_silent_logger():
-    """ロガー指定がないときにロガーが何も吐き出さないようにする"""
-    noop = lambda *args, **kwargs: None
+
+def _noop_log(*args: Any, **kwargs: Any) -> None:
+    """silent logger の各 logging method が使用する no-op 処理。"""
+    return None
+
+
+def get_silent_logger() -> SimpleNamespace:
+    """何も出力しない logger 互換オブジェクトを返す。
+
+    logger が任意指定の処理で、呼び出し側に ``None`` 判定を要求せず
+    ``debug`` から ``critical`` までの基本 logging method を呼べるようにする。
+
+    Returns:
+        logging の基本 method を no-op として持つ SimpleNamespace。
+    """
     methods = ["debug", "info", "warning", "error", "critical"]
-    return SimpleNamespace(**{m: noop for m in methods})
+    namespace = {}
+    for method in methods:
+        namespace[method] = _noop_log
+    return SimpleNamespace(**namespace)
 
 
+def safe_print_stack(limit: Optional[int] = 3) -> None:
+    """現在の stack を取得し、各 frame の位置を標準出力へ表示する。
 
-def safe_print_stack(limit=3):
+    実在するファイルは通常のファイル位置として表示し、実在しないパスは
+    ``(not found)`` を付けて表示する。
+
+    Args:
+        limit: 取得する stack frame 数。None の場合は全 frame を取得する。
+    """
     stack = traceback.extract_stack(limit=limit)
     for frame in stack:
-        # 実在するファイルのみ
+        # traceback 上のパスが現在も実在するかを明示して表示する。
         if os.path.exists(frame.filename):
-            print(f'File: {frame.filename}, Line: {frame.lineno}, in {frame.name}')
+            print(
+                "File: {}, Line: {}, in {}".format(
+                    frame.filename,
+                    frame.lineno,
+                    frame.name,
+                )
+            )
         else:
-            print(f'File: {frame.filename} (not found), Line: {frame.lineno}, in {frame.name}')
-
-# def tracing_print(*args, **kwargs):
-#     original_print("🔍 print() called with:", *args)
-#     traceback.print_stack(limit=3)  # 直近3フレームだけ表示（必要に応じて増やす）
-#     original_print(*args, **kwargs)
-#
-#
-# original_print = builtins.print
-# builtins.print = tracing_print
+            print(
+                "File: {} (not found), Line: {}, in {}".format(
+                    frame.filename,
+                    frame.lineno,
+                    frame.name,
+                )
+            )
