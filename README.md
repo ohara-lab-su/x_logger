@@ -1,30 +1,22 @@
 # x_logger
 
-## 名前の由来
+## Origin of the name
 
-`daruma` 用 logger、`elves` 用の `el_logger` など、プロジェクトごとに
-作成していた logger の共通機能をまとめ、用途を限定しない logger として
-再構築したものが `x_logger` です。
+The `x_logger` package consolidates common functionality from project-specific loggers, such as the logger for `daruma` and `el_logger` for `elves`, and reconstructs it as a general-purpose logger without restricting its intended use.
 
-`x` は任意・汎用の用途を表しています。また、他に適当な名前が
-思いつかなかった、という単純な理由もあります。
+The `x` denotes an arbitrary or general-purpose application. Another simple reason for the name is that no better name came to mind.
 
-## はじめに
+## Introduction
 
-`x_logger` は Python 標準の `logging` を基盤にした logger です。
-`logger_name` を logical logger の識別名として扱い、console、file、
-TimedRotatingFileHandler を簡単に構成できます。
+`x_logger` is a logger built on Python's standard `logging` module. It uses `logger_name` as the identifier of a logical logger and makes it easy to configure console output, file output, and `TimedRotatingFileHandler`.
 
-同じ `logger_name` は同じ named logger を表します。異なる
-`logger_name` は別の logger として扱われます。
+The same `logger_name` refers to the same named logger; different `logger_name` values identify different loggers.
 
-デバイス用途では、`logger_name` にデバイスクラス名を使用することを
-基本とします。これにより、ログ保存、multiprocessing、将来のログ閲覧
-サーバーで同じ logical logger 名を一貫して使用できます。
+For devices, the basic convention is to use the device class name as `logger_name`. This makes it possible to use the same logical logger name consistently for log storage, multiprocessing, and a future log-viewing server.
 
 ## Single-process logger
 
-通常は `XLogger` を使用します。
+Normally, use `XLogger`.
 
 ```python
 from x_logger.x_logger import XLogger
@@ -38,40 +30,29 @@ logger = XLogger(
 logger.info("started")
 ```
 
-`XLogger` のインスタンスを他のクラスへ渡して使用することもできます。
-ただし logger の論理的な識別はインスタンスではなく `logger_name` です。
+An `XLogger` instance can also be passed to other classes. However, the logical identity of the logger is its `logger_name`, not the instance itself.
 
 ### log_mode
 
-`default` は console のみに出力します。
+`default` outputs to the console only.
 
-`file` は指定したファイルと console の両方へ出力します。単独の
-ファイル保存用途として利用でき、デバイスサーバーやログ閲覧サーバーを
-必要としません。
+`file` outputs to both the specified file and the console. It can be used for standalone file logging and does not require a device server or log-viewing server.
 
-`rotating` または `rotate` は TimedRotatingFileHandler と console の
-両方へ出力します。rotation は midnight、保存数は `backup_count` で
-指定します。
+`rotating` or `rotate` outputs to both a `TimedRotatingFileHandler` and the console. Rotation occurs at midnight, and the number of retained backups is specified by `backup_count`.
 
 ## Handler management
 
-XLogger が生成した handler には XLogger 管理用の識別情報を付与します。
-同じ `logger_name` を XLogger で再設定した場合は、以前の XLogger handler
-を閉じてから新しい構成へ置き換えます。
+Handlers created by XLogger are tagged with identification information for XLogger management. When XLogger reconfigures the same `logger_name`, it closes the previous XLogger-managed handlers before replacing them with the new configuration.
 
-これにより、XLogger を再生成したことで console handler や file handler
-が積み重なることを防ぎます。
+This prevents console or file handlers from accumulating when XLogger is recreated.
 
-named logger は `propagate = False` とし、XLogger の出力が root logger を
-経由して再度 console へ出力される経路を遮断します。
+Named loggers use `propagate = False`, preventing XLogger output from passing through the root logger and appearing on the console again.
 
-root logger の coloredlogs 設定はプロセス内で一度だけ行います。
+The root logger's coloredlogs configuration is performed only once per process.
 
 ## Multiprocessing logger
 
-multiprocessing 用には別クラス `MultiProcessXLogger` を使用します。
-Single-process の `XLogger` と出力モード、logger name、level、format の
-考え方を共通化しています。
+For multiprocessing, use the separate `MultiProcessXLogger` class. It shares the same concepts of output modes, logger names, levels, and formats as the single-process `XLogger`.
 
 ```python
 from x_logger.multiprocess import MultiProcessXLogger
@@ -83,10 +64,7 @@ logger = MultiProcessXLogger(
 )
 ```
 
-multiprocessing では各 process が file handler を持つ構成にはせず、
-各 process からの LogRecord を QueueHandler で owner process へ送ります。
-owner process の QueueListener だけが console/file/rotating handler を
-所有します。
+In multiprocessing, each process does not own a file handler. Instead, each process sends `LogRecord` objects through a `QueueHandler` to the owner process. Only the owner's `QueueListener` owns console, file, and rotating handlers.
 
 ```text
 parent process ---\
@@ -95,20 +73,15 @@ child process 2 ---/                         |
                                              +--> file / rotating file
 ```
 
-この構成により、一つの logical logger に対する file 出力と rotation の
-所有者を一つに保ちます。
+This keeps file output and rotation under a single owner for each logical logger.
 
-`fork` では child process に継承された file handler を閉じ、QueueHandler
-経由へ切り替えます。`spawn` では復元された logger に QueueHandler を
-設定します。
+With `fork`, file handlers inherited by the child process are closed and logging is switched to `QueueHandler`. With `spawn`, `QueueHandler` is configured on the restored logger.
 
-multiprocessing の処理、Queue、QueueListener、process 判定、終了処理は
-`multiprocess.py` に分離しています。
+Multiprocessing operations, the Queue, QueueListener, process identification, and shutdown are separated into `multiprocess.py`.
 
-## Logical logger とログ閲覧
+## Logical loggers and log viewing
 
-デバイスシステムでは、基本的にデバイスクラス名を `logger_name` として
-使用します。
+In device systems, the device class name is generally used as `logger_name`.
 
 ```text
 Cobotta
@@ -120,8 +93,6 @@ Camera
   -> log storage: <prefix>/Camera/...
 ```
 
-将来のログ閲覧サーバーでは、この logical logger 名を基準に、現在の
-ログと rotation 済みログを gRPC 等から参照できる構成を想定します。
+A future log-viewing server is envisioned to expose current and rotated logs over gRPC or similar protocols, using this logical logger name as its reference.
 
-XLogger はログの生成と保存を担当し、ログ閲覧サーバーは保存された
-logical log stream の公開を担当します。
+XLogger is responsible for creating and storing logs, while the log-viewing server is responsible for exposing the stored logical log streams.

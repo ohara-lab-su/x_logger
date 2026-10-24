@@ -2,100 +2,93 @@
 
 ## 2026.10.05, v0.3.0, nakada
 
-- v0.2.15 を基準に logger 構成を再設計
-- Python logging の named logger を基盤として `logger_name` を
-  logical logger の識別名として統一
-- XLogger が生成した handler を識別し、同一 logger の再設定時に
-  XLogger 管理 handler のみを置換する構成へ変更
-- `default`、`file`、`rotating` / `rotate` の既存出力モードを維持
-- `file` と `rotating` は console への同時出力を維持
-- `setLevel()` で logger と XLogger 管理 handler の level を同期
-- multiprocessing 用 `MultiProcessXLogger` を `multiprocess.py` に追加
-- multiprocessing では QueueHandler / QueueListener を使用し、
-  file / rotating handler を owner process に集約
-- `fork` と `spawn` の multiprocessing 構成に対応
+- Redesigned the logger configuration based on v0.2.15.
+- Standardized `logger_name` as the logical logger identifier, based on Python logging's named loggers.
+- Added identification of handlers created by XLogger; reconfiguring a logger now replaces only handlers managed by XLogger.
+- Retained the existing output modes: `default`, `file`, and `rotating` / `rotate`.
+- Retained simultaneous console output in `file` and `rotating` modes.
+- Synchronized the levels of the logger and XLogger-managed handlers through `setLevel()`.
+- Added `MultiProcessXLogger` for multiprocessing in `multiprocess.py`.
+- Used QueueHandler / QueueListener for multiprocessing, consolidating file and rotating handlers in the owner process.
+- Added support for multiprocessing configurations using both `fork` and `spawn`.
 
 ## 2026.07.28, v0.2.15, nakada
 
-- after cobotta3/4 setup
+- After the cobotta3/4 setup.
 
 ## 2026.07.14, v0.2.14, nakada
 
-- 八代研引き渡し版
+- Version handed over to the Yashiro Laboratory.
 
 ## 2026.03.09, v0.2.13, nakada
 
-- 出張前 FINALバージョン(2026.03.15)
+- Final version before the business trip (2026.03.15).
 
 ## 2026.03.09, v0.2.12, nakada
 
-ドキュメント調整
+Documentation adjustments.
 
 ## 2026.03.04, v0.2.11, nakada
 
-- loglevel オプションを導入(logging 互換)
-  (内部的には log_level とする)
+- Introduced the `loglevel` option (compatible with logging); internally named `log_level`.
 
 ## 2026.02.06, v0.2.10, nakada
 
-- logger設定が、画面の見時にうまく機能しないバグを修正
+- Fixed a bug in which the logger configuration did not work correctly when displaying logs on screen.
 
 ## 2026.01.08, v0.2.9, nakada
 
-- logger.debug(self, msg, *args) のような標準 logger に修正
+- Changed to standard logger-style calls such as `logger.debug(self, msg, *args)` (wording preserved from the original history).
 
 ## 2025.11.06, v0.2.8, nakada
 
-- symlink 方式を止める
- 
+- Discontinued the symlink approach.
+
 ## 2025.11.06, v0.2.7, nakada
 
-- python 3.6 環境でネットワークなし環境で setup するために
-  pyproject.toml 意外に setup.py を復活させた
-  - symlink: プロジェクトルート/x_logger
+- Restored `setup.py` in addition to `pyproject.toml` to allow setup in an offline Python 3.6 environment.
+  - Symlink: `<project root>/x_logger`.
 
 ## 2025.10.16, v0.2.6, nakada
 
-- added sphinx module (project.toml)
- 
+- Added the Sphinx module (`project.toml`, as recorded in the original history).
+
 ## 2025.09.5, v0.2.5, nakada
- 
-- docs
- 
+
+- Documentation.
+
 ## 2025.09.5, v0.2.4, nakada
 
-- sphinx_docs: そもそもdocstringほとんど書いてないので意味がない
+- `sphinx_docs`: not very useful because most code has no docstrings.
 
 ## 2025.09.1, v0.2.3, nakada
 
-fix project.toml
+Fixed `project.toml` (as recorded in the original history).
 
 ## 2025.07.29, v0.2.2, nakada
 
-- rotate / rotating どちらでもok
+- Both `rotate` and `rotating` are accepted.
 
 ## 2025.07.29, v0.2.1, nakada
 
-- log name 関連をインスタンス変数化(get_xxx できるように)
+- Converted log-name-related settings into instance variables (so they can be retrieved through `get_xxx`).
 
 ## 2025.07.29, v0.2.0, nakada
 
-- v0.1.x でオミットしていた標準出力の同時出力機能(file/rotate) を追加修正
+- Restored and fixed simultaneous standard-output logging in `file` / `rotate` modes, which had been omitted in v0.1.x.
 
 ## v0.1.1, nakada
 
-コンフリクト解消、testsコード追加
+Resolved conflicts and added test code.
 
 ## v0.1.0, nakada
 
-logger の多重と六関係が、
-バグっていたので（マレにバグが顕在化）
-再構築
+Rebuilt the logger because a bug involving duplicated logging occasionally manifested itself.
 
 ## v0.0.2, nakada
 
-util に適当に追加しておいたデバッグプリント系がいろいろと悪さをしていたので、回収
+Recovered debugging-print utilities that had been casually added to `util` and were causing various problems.
 
 ## v0.0.1, nakada
 
-get_silent_logger() method をutilに追加
+Added the `get_silent_logger()` method to `util`.
