@@ -1,5 +1,8 @@
 # x_logger
 
+[![English](https://img.shields.io/badge/lang-en-red.svg)](https://ohara-lab-su.github.io/x_logger/README.md)
+[![日本語](https://img.shields.io/badge/lang-ja-blue.svg)](https://ohara-lab-su.github.io/x_logger/README.ja.md)
+
 ## 名前の由来
 
 `daruma` 用 logger、`elves` 用の `el_logger` など、プロジェクトごとに
