@@ -1,5 +1,8 @@
 # x_logger
 
+[![English](https://img.shields.io/badge/lang-en-red.svg)](https://ohara-lab-su.github.io/x_logger/README.md)
+[![日本語](https://img.shields.io/badge/lang-ja-blue.svg)](https://ohara-lab-su.github.io/x_logger/README.ja.md)
+
 ## Origin of the name
 
 The `x_logger` package consolidates common functionality from project-specific loggers, such as the logger for `daruma` and `el_logger` for `elves`, and reconstructs it as a general-purpose logger without restricting its intended use.

@@ -1,5 +1,8 @@
 # CHANGELOG
 
+[![English](https://img.shields.io/badge/lang-en-red.svg)](https://ohara-lab-su.github.io/x_logger/CHANGELOG.md)
+[![日本語](https://img.shields.io/badge/lang-ja-blue.svg)](https://ohara-lab-su.github.io/x_logger/CHANGELOG.ja.md)
+
 ## 2026.10.05, v0.3.0, nakada
 
 - v0.2.15 を基準に logger 構成を再設計
