@@ -8,7 +8,7 @@ name = "xlogger-py"
 
 version = "0.3.3"
 
-description = "logger"
+description = "Python logging utilities with named loggers, rotating files, and multiprocessing-safe centralized log output."
 authors = [
   { name="Kengo NAKADA", email="kengo.nakada@email.com" }
 ]
@@ -27,6 +27,12 @@ dependencies = [
 "sphinxcontrib-napoleon",
 "linkify-it-py"
 ]
+
+[project.urls]
+Homepage = "https://ohara-lab-su.github.io/x_logger/"
+Documentation = "https://ohara-lab-su.github.io/x_logger/"
+Repository = "https://github.com/ohara-lab-su/x_logger"
+Issues = "https://github.com/ohara-lab-su/x_logger/issues"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
